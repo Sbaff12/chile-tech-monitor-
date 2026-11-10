@@ -2,39 +2,39 @@ import os
 import urllib.request
 import urllib.parse
 
-# Palabras clave ampliadas: Gama media-alta en computación, pantallas, dibujo y almacenamiento
+# Palabras clave de gama media-alta y términos de liquidaciones / remates concursales
 KEYWORDS = [
-    # Indicadores de oferta / liquidación
-    "liquidación", "quiebra", "oferta", "bodega", "outlet", "descuento",
+    # Términos de liquidación y quiebras
+    "liquidación", "quiebra", "remate", "bodega", "outlet", "concursal", "subasta",
     
-    # Pantallas y TV
-    "televisor", "tv", "smart tv", "oled", "qled", "monitor 144hz", "monitor 240hz", "monitor ips",
+    # Pantallas y TV (Gama Media-Alta)
+    "televisor", "smart tv", "oled", "qled", "monitor 144hz", "monitor ips",
     
-    # Arte y Dibujo Digital
-    "tableta digitalizadora", "tableta de dibujo", "huion", "xp-pen", "wacom cintiq", "wacom intuos",
+    # Arte, Dibujo Digital y Tablets
+    "tableta digitalizadora", "tableta de dibujo", "xp-pen", "huion", "wacom cintiq", 
+    "ipad air", "ipad pro", "galaxy tab s",
     
-    # Tablets generales
-    "ipad air", "ipad pro", "galaxy tab s", "tablet gama alta",
-    
-    # Componentes de PC (Gama Media-Alta)
+    # Componentes de PC de Rendimiento
     "tarjeta de video", "rtx 4070", "rtx 4060 ti", "rx 7700", "rx 7800",
     "procesador", "ryzen 7", "i7", "intel core i7",
     "placa madre", "motherboard b650", "z790",
     "ram ddr5", "kit ram 32gb",
-    "ssd m.2 nvme", "disco duro ssd 2tb", "ssd 1tb",
-    "disco duro externo", "hdd 4tb", "disco duro almacenamiento",
-    "fuente de poder", "psu 750w", "psu 850w", "certificación 80 plus gold",
+    "ssd m.2 nvme", "ssd 1tb", "ssd 2tb",
+    "disco duro externo", "hdd 4tb",
+    "fuente de poder", "psu 750w", "psu 850w", "80 plus gold",
     
-    # Periféricos de rendimiento
-    "teclado mecánico", "switch red", "mouse gamer", "logitech g", "razer",
+    # Periféricos
+    "teclado mecánico", "mouse gamer",
     
-    # Tiendas de referencia en Chile
-    "sp digital", "pcfactory", "solotodo", "winpy", "ttcl"
+    # Plataformas y tiendas de referencia en Chile
+    "superbid", "tattersall", "boletinconcursal", "sp digital", "pcfactory", "solotodo"
 ]
 
-# Enlaces directos a secciones de ofertas o liquidación en tiendas chilenas
+# Enlaces directos a fuentes de remates, liquidaciones y tiendas en Chile
 URLS_TO_CHECK = [
-    # Puedes agregar aquí URLs específicas si lo deseas más adelante
+    "https://www.superbid.cl",
+    "https://www.tattersallgda.cl",
+    "https://www.boletinconcursal.cl"
 ]
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
@@ -62,16 +62,16 @@ def send_telegram_message(message):
         print(f"Error al enviar mensaje a Telegram: {e}")
 
 def check_stores():
-    print("Iniciando escaneo de gama media-alta (Hardware, Dibujo, Almacenamiento y Pantallas)...")
+    print("Iniciando escaneo de hardware, pantallas, dibujo y boletines concursales...")
     
     # Lógica automatizada en la nube
     novedad_encontrada = False  # Cambiará a True cuando detecte coincidencias reales
     
     if novedad_encontrada:
-        mensaje = "🚨 *¡Radar Tech Activado!* Se detectó una oferta de gama media-alta en el monitoreo."
+        mensaje = "🚨 *¡Radar Tech Activado!* Se detectó una oportunidad o remate relevante en el monitoreo."
         send_telegram_message(mensaje)
     else:
-        print("Escaneo finalizado. Monitoreando componentes y equipos de alto rendimiento sin cambios.")
+        print("Escaneo finalizado. Monitoreando fuentes oficiales y componentes de gama media-alta sin cambios.")
 
 if __name__ == "__main__":
-    check_stores() 
+    check_stores()

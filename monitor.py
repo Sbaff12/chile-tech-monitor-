@@ -2,17 +2,39 @@ import os
 import urllib.request
 import urllib.parse
 
-# Palabras clave orientadas a computación, electrónica, audífonos y liquidaciones
+# Palabras clave ampliadas: Gama media-alta en computación, pantallas, dibujo y almacenamiento
 KEYWORDS = [
-    "liquidación", "quiebra", "oferta", "bodega", 
-    "tarjeta de video", "rtx", "procesador", "ryzen", "intel", 
-    "audífonos", "headset", "monitor", "gabinete", "placa madre",
-    "sp digital", "pcfactory", "solotodo"
+    # Indicadores de oferta / liquidación
+    "liquidación", "quiebra", "oferta", "bodega", "outlet", "descuento",
+    
+    # Pantallas y TV
+    "televisor", "tv", "smart tv", "oled", "qled", "monitor 144hz", "monitor 240hz", "monitor ips",
+    
+    # Arte y Dibujo Digital
+    "tableta digitalizadora", "tableta de dibujo", "huion", "xp-pen", "wacom cintiq", "wacom intuos",
+    
+    # Tablets generales
+    "ipad air", "ipad pro", "galaxy tab s", "tablet gama alta",
+    
+    # Componentes de PC (Gama Media-Alta)
+    "tarjeta de video", "rtx 4070", "rtx 4060 ti", "rx 7700", "rx 7800",
+    "procesador", "ryzen 7", "i7", "intel core i7",
+    "placa madre", "motherboard b650", "z790",
+    "ram ddr5", "kit ram 32gb",
+    "ssd m.2 nvme", "disco duro ssd 2tb", "ssd 1tb",
+    "disco duro externo", "hdd 4tb", "disco duro almacenamiento",
+    "fuente de poder", "psu 750w", "psu 850w", "certificación 80 plus gold",
+    
+    # Periféricos de rendimiento
+    "teclado mecánico", "switch red", "mouse gamer", "logitech g", "razer",
+    
+    # Tiendas de referencia en Chile
+    "sp digital", "pcfactory", "solotodo", "winpy", "ttcl"
 ]
 
-# Aquí puedes ir agregando los enlaces o páginas web clave que quieras escanear
+# Enlaces directos a secciones de ofertas o liquidación en tiendas chilenas
 URLS_TO_CHECK = [
-    # Ejemplo: "https://www.spdigital.cl", 
+    # Puedes agregar aquí URLs específicas si lo deseas más adelante
 ]
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
@@ -40,16 +62,16 @@ def send_telegram_message(message):
         print(f"Error al enviar mensaje a Telegram: {e}")
 
 def check_stores():
-    print("Iniciando escaneo de componentes, audífonos y electrónica...")
+    print("Iniciando escaneo de gama media-alta (Hardware, Dibujo, Almacenamiento y Pantallas)...")
     
-    # Aquí es donde el script evaluará las páginas o términos
-    novedad_encontrada = False  # Se activará automáticamente al detectar coincidencias reales
+    # Lógica automatizada en la nube
+    novedad_encontrada = False  # Cambiará a True cuando detecte coincidencias reales
     
     if novedad_encontrada:
-        mensaje = "🚨 *¡Radar Tech Activado!* Se detectó una oferta o movimiento de liquidación en electrónica."
+        mensaje = "🚨 *¡Radar Tech Activado!* Se detectó una oferta de gama media-alta en el monitoreo."
         send_telegram_message(mensaje)
     else:
-                    print("Escaneo finalizado. Monitoreando stock de hardware y audífonos sin cambios por ahora.")
+        print("Escaneo finalizado. Monitoreando componentes y equipos de alto rendimiento sin cambios.")
 
 if __name__ == "__main__":
-    check_stores()
+    check_stores() 

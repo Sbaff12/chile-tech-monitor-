@@ -112,3 +112,4 @@ def check_stores():
 
 if __name__ == "__main__":
     check_stores()
+novedad_encontrada = True

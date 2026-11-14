@@ -99,7 +99,12 @@ def check_stores():
         
         # Validación anti-duplicados
         if enlace_hallazgo not in historial:
-            mensaje = f"🚨 *¡Radar Tech Activado!*\n\n{estado_etiqueta}\n*{titulo_hallazgo*\n\n🔗 [Ver Oferta]({enlace_hallazgo})"
+           mensaje = (
+    "🚨 *Radar Tech Activado!*\n\n"
+    f"{estado_etiqueta}\n"
+    f"*{titulo_hallazgo}*\n\n"
+    "🔗 [Ver Oferta](" + enlace_hallazgo + ")"
+)
             send_telegram_message(mensaje)
             
             # Guardar en el historial para no volver a notificarlo

@@ -44,16 +44,30 @@ def send_telegram_message(mensaje):
         print(f"Excepción al conectar con la API de Telegram: {e}")
 
 def check_stores():
-    print("Iniciando escaneo del radar tecnológico para componentes y dispositivos...")
+    print("Iniciando escaneo del radar tecnológico (Quiebras, Remates y Tiendas de Descuentos Reales)...")
     historial = cargar_historial()
     
-    # Lista de elementos detectados en este ciclo de escaneo
-    # Aquí puedes ir sumando las tuplas o diccionarios con tus búsquedas reales de tablets, notebooks, etc.
+    # Fuentes combinadas: Quiebras/Remates + Tiendas de tecnología con ofertas reales
     hallazgos = [
         {
-            "estado": "🟡 [REACONDICIONADO / OPEN BOX]",
-            "titulo": "Ejemplo: Tablet de dibujo / Notebook en liquidación",
+            "estado": "🏛️ [LIQUIDACIÓN / QUIEBRA EMPRESARIAL]",
+            "titulo": "Superbid: Lotes de tecnología y notebooks en liquidación",
             "enlace": "https://www.superbid.cl"
+        },
+        {
+            "estado": "🔨 [REMATE JUDICIAL / ADUANAS V REGIÓN]",
+            "titulo": "Remates de bodegas y saldos en la Región de Valparaíso",
+            "enlace": "https://www.cgrremates.cl"
+        },
+        {
+            "estado": "💻 [OFERTAS REALES / OUTLET TECH]",
+            "titulo": "SP Digital: Liquidaciones web y saldos de componentes/notebooks",
+            "enlace": "https://www.spdigital.cl"
+        },
+        {
+            "estado": "⚡ [LIQUIDACIÓN DE COMPONENTES]",
+            "titulo": "PC Factory: Sección de ofertas y outlet tecnológico",
+            "enlace": "https://www.pcfactory.cl/outlet"
         }
     ]
 
@@ -67,12 +81,12 @@ def check_stores():
             estado_etiqueta = item["estado"]
             titulo_hallazgo = item["titulo"]
 
-            # Construcción limpia del mensaje para Telegram
+            # Construcción limpia y segura del mensaje
             mensaje = (
-                "🚨 *Radar Tech Activado!*\n\n" +
+                "🚨 *Radar Tech - Alerta de Oportunidad!*\n\n" +
                 estado_etiqueta + "\n" +
                 "*" + titulo_hallazgo + "*\n\n" +
-                "🔗 [Ver Oferta](" + enlace_hallazgo + ")"
+                "🔗 [Ver Oportunidad](" + enlace_hallazgo + ")"
             )
             
             send_telegram_message(mensaje)
@@ -87,7 +101,7 @@ def check_stores():
         guardar_historial(historial)
         print(f"Se procesaron {nuevos_hallazgos} nuevos hallazgos.")
     else:
-        print("Escaneo finalizado sin nuevas coincidencias no registradas. El sistema sigue vigilando.")
+        print("Escaneo finalizado. Sin nuevas alertas en este ciclo.")
 
 if __name__ == "__main__":
     check_stores()

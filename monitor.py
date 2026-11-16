@@ -1,12 +1,9 @@
 import os
 import json
 import requests
-from bs4 import BeautifulSoup
 
-# Configuración de Telegram desde las variables de entorno de GitHub Actions
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
-
 HISTORIAL_FILE = "historial_enlaces.json"
 
 def cargar_historial():
@@ -20,40 +17,38 @@ def cargar_historial():
 
 def guardar_historial(historial):
     with open(HISTORIAL_FILE, "w", encoding="utf-8") as f:
-        json.dump(historial, f, ensure_ascii=False, indent=4)
+        json.dump(historial, f, ensure_ascii=False, indent=2)
 
-def send_telegram_message(mensaje):
+def enviar_telegram(mensaje):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Error: Las credenciales de Telegram no están configuradas en los secretos de GitHub.")
-        return
-    
+        return False
+
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": mensaje,
-        "parse_mode": "Markdown"
+        "parse_mode": "HTML",
+        "disable_web_page_preview": False
     }
-    
     try:
-        response = requests.post(url, json=payload)
-        if response.status_code == 200:
+        respuesta = requests.post(url, json=payload, timeout=15)
+        if respuesta.status_code == 200:
             print("¡Notificación enviada a Telegram con éxito!")
+            return True
         else:
-            print(f"Error al enviar a Telegram: {response.text}")
+            print(f"Error al enviar a Telegram: {respuesta.status_code} - {respuesta.text}")
+            return False
     except Exception as e:
-        print(f"Excepción al conectar con la API de Telegram: {e}")
+        print(f"Excepción al conectar con Telegram: {e}")
+        return False
 
-def check_stores():
+def ejecutar_radar():
     print("Iniciando escaneo del radar tecnológico (Quiebras, Remates y Tiendas de Descuentos Reales)...")
     historial = cargar_historial()
-    
-    # Fuentes combinadas: Quiebras/Remates + Tiendas de tecnología con ofertas reales
+    nuevos_enviados = 0
+
     hallazgos = [
-        {
-            "estado": "🏛️ [LIQUIDACIÓN / QUIEBRA EMPRESARIAL]",
-            "titulo": "Superbid: Lotes de tecnología y notebooks en liquidación",
-            "enlace": "https://www.superbid.cl"
-        },
         {
             "estado": "🏛️ [LIQUIDACIÓN / QUIEBRA EMPRESARIAL]",
             "titulo": "Superbid: Lotes de tecnología y notebooks en liquidación",
@@ -75,49 +70,19 @@ def check_stores():
             "enlace": "https://www.pcfactory.cl/outlet"
         }
     ]
-        {
-            "estado": "💻 [OFERTAS REALES / OUTLET TECH]",
-            "titulo": "SP Digital: Liquidaciones web y saldos de componentes/notebooks",
-            "enlace": "https://www.spdigital.cl"
-        },
-        {
-            "estado": "⚡ [LIQUIDACIÓN DE COMPONENTES]",
-            "titulo": "PC Factory: Sección de ofertas y outlet tecnológico",
-            "enlace": "https://www.pcfactory.cl/outlet"
-        }
-    ]
-
-    nuevos_hallazgos = 0
 
     for item in hallazgos:
-        enlace_hallazgo = item["enlace"]
-        
-        # Validación anti-duplicados para no spamear enlaces ya reportados
-        if enlace_hallazgo not in historial:
-            estado_etiqueta = item["estado"]
-            titulo_hallazgo = item["titulo"]
+        enlace = item["enlace"]
+        if enlace in historial:
+            print(f"Oferta ya reportada anteriormente: {enlace}")
+            continue
 
-            # Construcción limpia y segura del mensaje
-            mensaje = (
-                "🚨 *Radar Tech - Alerta de Oportunidad!*\n\n" +
-                estado_etiqueta + "\n" +
-                "*" + titulo_hallazgo + "*\n\n" +
-                "🔗 [Ver Oportunidad](" + enlace_hallazgo + ")"
-            )
-            
-            send_telegram_message(mensaje)
+        mensaje = (
+            f"🚨 <b>RADAR TECH QUINTA REGIÓN</b> 🚨\n\n"
+            f"{item['estado']}\n"
+            f"📌 <b>{item['titulo']}</b>\n\n"
+            f"🔗 <a href='{enlace}'>Ver publicación aquí</a>"
+        )
 
-            # Guardar en el historial para evitar alertas repetidas
-            historial.append(enlace_hallazgo)
-            nuevos_hallazgos += 1
-        else:
-            print(f"Oferta ya reportada anteriormente: {enlace_hallazgo}")
-
-    if nuevos_hallazgos > 0:
-        guardar_historial(historial)
-        print(f"Se procesaron {nuevos_hallazgos} nuevos hallazgos.")
-    else:
-        print("Escaneo finalizado. Sin nuevas alertas en este ciclo.")
-
-if __name__ == "__main__":
-    check_stores()
+        if enviar_telegram(mensaje):
+            historial.append(enlace)

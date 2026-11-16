@@ -1,10 +1,1 @@
-- name: Instalar dependencias
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install requests beautifulsoup4
 
-      - name: Ejecutar Radar Tech
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python3 monitor.py

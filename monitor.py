@@ -55,10 +55,26 @@ def check_stores():
             "enlace": "https://www.superbid.cl"
         },
         {
-            "estado": "🔨 [REMATE JUDICIAL / ADUANAS V REGIÓN]",
-            "titulo": "Remates de bodegas y saldos en la Región de Valparaíso",
-            "enlace": "https://www.cgrremates.cl"
+            "estado": "🏛️ [LIQUIDACIÓN / QUIEBRA EMPRESARIAL]",
+            "titulo": "Superbid: Lotes de tecnología y notebooks en liquidación",
+            "enlace": "https://www.superbid.cl"
         },
+        {
+            "estado": "🔨 [REMATE JUDICIAL / LIQUIDACIÓN EMPRESAS]",
+            "titulo": "Macal: Remates online de tecnología, equipos y saldos",
+            "enlace": "https://www.macal.cl"
+        },
+        {
+            "estado": "💻 [OFERTAS REALES / OUTLET TECH]",
+            "titulo": "SP Digital: Liquidaciones web y saldos de componentes/notebooks",
+            "enlace": "https://www.spdigital.cl"
+        },
+        {
+            "estado": "⚡ [LIQUIDACIÓN DE COMPONENTES]",
+            "titulo": "PC Factory: Sección de ofertas y outlet tecnológico",
+            "enlace": "https://www.pcfactory.cl/outlet"
+        }
+    ]
         {
             "estado": "💻 [OFERTAS REALES / OUTLET TECH]",
             "titulo": "SP Digital: Liquidaciones web y saldos de componentes/notebooks",

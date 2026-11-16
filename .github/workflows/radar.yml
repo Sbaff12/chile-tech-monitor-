@@ -1,15 +1,15 @@
 name: Radar Tecnologico Chile
 
 on:
-  schedule:
-    # Se ejecuta automáticamente cada 6 horas
-    - cron: '0 */6 * * *'
-  # Permite que tú lo ejecutes manualmente con un botón cuando quieras
   workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
 
 jobs:
   run-monitor:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Descargar código del repositorio
         uses: actions/checkout@v4
@@ -19,16 +19,20 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Instalar dependencias
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install requests beautifulsoup4
+
       - name: Ejecutar Radar Tech
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python monitor.py
+        run: python3 monitor.py
 
       - name: Guardar historial para evitar alertas repetidas
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add historico_alertas.json || true
-          git commit -m "Actualizar historial de alertas" || exit 0
-          git push
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add historial_enlaces.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualizar historial de enlaces" && git push)
